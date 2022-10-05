@@ -11,7 +11,7 @@ def getData():
 def main():
     his_data = getData()
     soup = BeautifulSoup(his_data, "html.parser")
-    print(soup.table)
+
 
 if __name__ == "__main__":
         main()
