@@ -77,6 +77,7 @@ class HisData:
             list.append(raffle_num_bonus)
 
             list_all.append(list)
+        list_all = reversed(list_all)
         return list_all
 
 
