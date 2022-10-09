@@ -1,11 +1,14 @@
 from bs4 import BeautifulSoup  # pip install beautifulSoup4
+import requests # pip install requests
 import os
 import re
+from datetime import datetime
 
-class HisData:
+class Data:
     def __int__(self):
         self.folder_path = ''
         self.his_data = []
+        self.url = ''
 
     def getData(self):
         self.folder_path = os.path.dirname(os.path.realpath(__file__))
@@ -81,15 +84,25 @@ class HisData:
         return list_all
 
 
-    def getLottoinfo(self):
+    def getLottoInfoHis(self):
         data = self.getData()
         soup = BeautifulSoup(data, "html.parser")
         elements = soup.select('table > tr ')
         self.his_data = self.preprocessingData(elements)
         return self.his_data
 
+    def getLottoInfoNow(self):
+        self.url = 'https://dhlottery.co.kr/gameResult.do?method=byWin'
+        response = requests.get(self.url)
+        soup = BeautifulSoup(response.text, "html.parser")
+        raffle_round = re.sub('\D+', '', soup.select_one('div.win_result > h4 > strong').text)
+        raffle_date_str = re.findall('\d{2,4}년[\s]?\d{1,2}월[\s]?\d{1,2}일', soup.select_one('div.win_result > p.desc').text)[0]
+        raffle_date = datetime.strptime(raffle_date_str, "%Y년 %m월 %d일")
 
-# if __name__ == "__main__":
-#         main = HisData()
+        print(raffle_date)
+
+if __name__ == "__main__":
+        main = Data()
+        main.getLottoInfoNow()
 
 
