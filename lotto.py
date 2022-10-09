@@ -1,19 +1,25 @@
 import pymysql  # pip install PyMySql
-import requests # pip install requests
+
 import os
 
-from HisData import HisData
+from Data import Data
 
 def main():
-    conn = pymysql.connect(host='localhost', port=3306, user='user', password='pwd', db='db')
+    url = 'https://dhlottery.co.kr/gameResult.do?method=byWin'
+    response = requests.get(url)
+    soup = BeautifulSoup(response.content, "html.parser")
+    RAFFLE_ROUND = soup.select('div.win_result > h4 > strong')
+    print(elements)
 
-    instance = HisData()
-    his_data = instance.getLottoinfo()
-    for data in his_data:
-        insertLottoInfo(conn, data);
-
-
-    conn.close()
+    # conn = pymysql.connect(host='132.226.231.171', port=3306, user='prj', password='prj!@#', db='db_lotto')
+    #
+    # instance = Data()
+    # his_data = instance.getLottoInfoHis()
+    # for data in his_data:
+    #     insertLottoInfo(conn, data);
+    #
+    #
+    # conn.close()
 
 
 
