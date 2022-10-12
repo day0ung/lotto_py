@@ -92,14 +92,69 @@ class Data:
         return self.his_data
 
     def getLottoInfoNow(self):
+        list = []
+        raffle_round = 0
+        raffle_date = ''
+        first_win_count = 0
+        first_win_amount = 0
+        second_win_count = 0
+        second_win_amount = 0
+        third_win_count = 0
+        third_win_amount = 0
+        fourth_win_count = 0
+        fourth_win_amount = 0
+        fifth_win_count = 0
+        fifth_win_amount = 0
+        raffle_num_one = 0
+        raffle_num_two = 0
+        raffle_num_three = 0
+        raffle_num_four = 0
+        raffle_num_five = 0
+        raffle_num_six = 0
+        raffle_num_bonus = 0
         self.url = 'https://dhlottery.co.kr/gameResult.do?method=byWin'
         response = requests.get(self.url)
         soup = BeautifulSoup(response.text, "html.parser")
         raffle_round = re.sub('\D+', '', soup.select_one('div.win_result > h4 > strong').text)
         raffle_date_str = re.findall('\d{2,4}년[\s]?\d{1,2}월[\s]?\d{1,2}일', soup.select_one('div.win_result > p.desc').text)[0]
-        raffle_date = datetime.strptime(raffle_date_str, "%Y년 %m월 %d일")
-
-        print(raffle_date)
+        raffle_date = datetime.strptime(raffle_date_str, "%Y년 %m월 %d일").date()
+        first_win_count = re.sub('\D+', '',soup.select_one('tbody > tr:nth-child(1) > td:nth-child(3)').text)
+        first_win_amount = re.sub('\D+', '',soup.select_one('tbody > tr:nth-child(1) > td:nth-child(4)').text)
+        second_win_count = re.sub('\D+', '',soup.select_one('tbody > tr:nth-child(2) > td:nth-child(3)').text)
+        second_win_amount = re.sub('\D+', '',soup.select_one('tbody > tr:nth-child(2) > td:nth-child(4)').text)
+        third_win_count = re.sub('\D+', '',soup.select_one('tbody > tr:nth-child(3) > td:nth-child(3)').text)
+        third_win_amount = re.sub('\D+', '',soup.select_one('tbody > tr:nth-child(3) > td:nth-child(4)').text)
+        fourth_win_count = re.sub('\D+', '',soup.select_one('tbody > tr:nth-child(4) > td:nth-child(3)').text)
+        fourth_win_amount = re.sub('\D+', '',soup.select_one('tbody > tr:nth-child(4) > td:nth-child(4)').text)
+        fifth_win_count = re.sub('\D+', '',soup.select_one('tbody > tr:nth-child(5) > td:nth-child(3)').text)
+        fifth_win_amount = re.sub('\D+', '',soup.select_one('tbody > tr:nth-child(5) > td:nth-child(4)').text)
+        raffle_num_one = soup.select_one('div.num.win > p > span:nth-child(1)').text
+        raffle_num_two = soup.select_one('div.num.win > p > span:nth-child(2)').text
+        raffle_num_three = soup.select_one('div.num.win > p > span:nth-child(3)').text
+        raffle_num_four = soup.select_one('div.num.win > p > span:nth-child(4)').text
+        raffle_num_five = soup.select_one('div.num.win > p > span:nth-child(5)').text
+        raffle_num_six = soup.select_one('div.num.win > p > span:nth-child(6)').text
+        raffle_num_bonus = soup.select_one('div.num.bonus> p > span').text
+        list.append(raffle_round)
+        list.append(raffle_date)
+        list.append(first_win_count)
+        list.append(first_win_amount)
+        list.append(second_win_count)
+        list.append(second_win_amount)
+        list.append(third_win_count)
+        list.append(third_win_amount)
+        list.append(fourth_win_count)
+        list.append(fourth_win_amount)
+        list.append(fifth_win_count)
+        list.append(fifth_win_amount)
+        list.append(raffle_num_one)
+        list.append(raffle_num_two)
+        list.append(raffle_num_three)
+        list.append(raffle_num_four)
+        list.append(raffle_num_five)
+        list.append(raffle_num_six)
+        list.append(raffle_num_bonus)
+        return list
 
 if __name__ == "__main__":
         main = Data()
