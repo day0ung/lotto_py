@@ -5,21 +5,19 @@ import os
 from Data import Data
 
 def main():
-    url = 'https://dhlottery.co.kr/gameResult.do?method=byWin'
-    response = requests.get(url)
-    soup = BeautifulSoup(response.content, "html.parser")
-    RAFFLE_ROUND = soup.select('div.win_result > h4 > strong')
-    print(elements)
 
-    # conn = pymysql.connect(host='132.226.231.171', port=3306, user='prj', password='prj!@#', db='db_lotto')
-    #
-    # instance = Data()
+    conn = pymysql.connect(host='localhost', port=3306, user='user', password='pwd', db='db')
+
+    instance = Data()
     # his_data = instance.getLottoInfoHis()
     # for data in his_data:
-    #     insertLottoInfo(conn, data);
-    #
-    #
-    # conn.close()
+    #     insertLottoInfo(conn, data)
+
+    now_data = instance.getLottoInfoNow()
+    insertLottoInfo(conn, now_data)
+
+
+    conn.close()
 
 
 
@@ -33,8 +31,7 @@ def insertLottoInfo(conn, data):
         VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NOW());
         """
 
-        curs.execute(sql, (data[0],data[1],data[2],data[3],data[4],data[5],data[6],data[7],data[8],data[9],data[10],data[11],
-                           data[12],data[13],data[14],data[15],data[16],data[17],data[18]))
+        curs.execute(sql, (data[0],data[1],data[2],data[3],data[4],data[5],data[6],data[7],data[8],data[9],data[10],data[11],data[12],data[13],data[14],data[15],data[16],data[17],data[18]))
         conn.commit()
 
 
